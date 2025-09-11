@@ -1,1 +1,7 @@
-# samoilov_highload_2025_spring
+# Samoilov - Highload 2025 autumn
+
+Студент: Самойлов Антон Дмитриевич
+Старший преподаватель: Александр Быков
+
+# Tinder 
+
