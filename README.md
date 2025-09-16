@@ -31,4 +31,7 @@
 
 ## 2. Расчёт нагрузки
 ## Список использованных источников
-
+1) https://affmaven.com/ru/tinder-statistics/
+2) https://datingzest.com/tinder-statistics/
+3) https://www.businessofapps.com/data/tinder-statistics/
+4) https://www.demandsage.com/tinder-statistics/
