@@ -960,7 +960,7 @@ circuit_breaker:
 
 Итог на ДЦ: 7 серверов. Суммарно: `448 физических ядер, 3584 ГБ RAM`.
 
-11.2.4. Кластер поиска (Elasticsearch)
+### 11.6.4. Кластер поиска (Elasticsearch)
 Назначение: Полнотекстовый поиск пользователей (UserSearch).
 
 Исходная потребность: 12 vCPU, 24 ГБ RAM.
@@ -975,7 +975,7 @@ circuit_breaker:
 
 Итог на ДЦ: 4 сервера. Суммарно: `96 физических ядер, 512 ГБ RAM`.
 
-11.2.5. Серверы инфраструктуры и мониторинга
+### 11.6.5. Серверы инфраструктуры и мониторинга
 Назначение: Хостинг Apache Kafka, Prometheus/VictoriaMetrics, Grafana, Loki, GitLab CI/CD.
 
 Оценочная потребность: ~40 vCPU, ~80 ГБ RAM.
@@ -990,14 +990,14 @@ circuit_breaker:
 
 Итог на ДЦ: 6 серверов. Суммарно: `144 физических ядра, 768 ГБ RAM`.
 
-11.2.6. Аппаратные балансировщики (L4)
+### 11.6.6. Аппаратные балансировщики (L4)
 Назначение: Высокоскоростная терминация TCP-соединений, первичное распределение трафика.
 
 Исходная потребность: Обработка до ~255 Гбит/с пикового трафика.
 
 Расчёт: Для гарантированной производительности и low-latency используются специализированные аппаратные решения, а не виртуализированные.
 
-Выбрано устройство: F5 BIG-IP i7800 (аппаратный appliance).
+Выбрано устройство: `F5 BIG-IP i7800` (аппаратный appliance).
 
 Конфигурация: Режим active-active для отказоустойчивости и распределения нагрузки.
 
@@ -1005,7 +1005,7 @@ circuit_breaker:
 
 Итог на ДЦ: `2 аппаратных балансировщика F5 BIG-IP i7800`.
 
-11.2.7. Сетевые коммутаторы
+### 11.6.7. Сетевые коммутаторы
 Назначение: Высокоскоростное соединение всех серверов внутри ДЦ (fabric).
 
 Расчёт: Принята отказоустойчивая схема spine-leaf.
@@ -1018,9 +1018,12 @@ Spine-коммутаторы (магистраль): 2 устройства дл
 
 Итог на ДЦ: `4 сетевых коммутатора Arista 7280R3`.
 
-11.3. Сводная таблица физической конфигурации одного ДЦ
+## 11.7. Сводная таблица физической конфигурации одного ДЦ
 
 <table><thead><tr><th><span>Компонент / Роль</span></th><th><span>Модель сервера / устройства</span></th><th><span>Ключевые характеристики (на 1 единицу)</span></th><th><span>Кол-во в ДЦ (N+1)</span></th><th><strong><span>Σ Физич. ядер</span></strong></th><th><strong><span>Σ RAM (ГБ)</span></strong></th></tr></thead><tbody><tr><td><strong><span>Серверы приложений</span></strong></td><td><span>Dell PowerEdge R760</span></td><td><span>2x Intel Xeon Gold 6430 (64 ядра), 256 ГБ DDR5</span></td><td><span>8</span></td><td><strong><span>512</span></strong></td><td><strong><span>2 048</span></strong></td></tr><tr><td><strong><span>Балансировщики L7 (Nginx)</span></strong></td><td><span>Dell PowerEdge R660</span></td><td><span>2x Intel Xeon Silver 4410Y (24 ядра), 128 ГБ RAM</span></td><td><span>12</span></td><td><strong><span>288</span></strong></td><td><strong><span>1 536</span></strong></td></tr><tr><td><strong><span>Кластер Redis</span></strong></td><td><span>Dell PowerEdge R760</span></td><td><span>2x Intel Xeon Gold 6430 (64 ядра), </span><strong><span>512 ГБ DDR5</span></strong></td><td><span>7</span></td><td><strong><span>448</span></strong></td><td><strong><span>3 584</span></strong></td></tr><tr><td><strong><span>Кластер Elasticsearch</span></strong></td><td><span>Dell PowerEdge R660</span></td><td><span>2x Intel Xeon Silver 4410Y (24 ядра), 128 ГБ RAM</span></td><td><span>4</span></td><td><strong><span>96</span></strong></td><td><strong><span>512</span></strong></td></tr><tr><td><strong><span>Инфраструктура и мониторинг</span></strong></td><td><span>Dell PowerEdge R660</span></td><td><span>2x Intel Xeon Silver 4410Y (24 ядра), 128 ГБ RAM</span></td><td><span>6</span></td><td><strong><span>144</span></strong></td><td><strong><span>768</span></strong></td></tr><tr><td><strong><span>Балансировщики L4</span></strong></td><td><strong><span>F5 BIG-IP i7800</span></strong></td><td><span>Аппаратное appliance, throughput до 200 Gbps</span></td><td><span>2</span></td><td><span>—</span></td><td><span>—</span></td></tr><tr><td><strong><span>Сетевые коммутаторы</span></strong></td><td><strong><span>Arista 7280R3</span></strong></td><td><span>100GbE порты, spine-leaf архитектура</span></td><td><span>4</span></td><td><span>—</span></td><td><span>—</span></td></tr><tr><td><strong><span>Итого по ДЦ:</span></strong></td><td></td><td><strong><span>39 физических серверов + 6 сетевых устройств</span></strong></td><td></td><td><strong><span>~1 488</span></strong></td><td><strong><span>~8 448</span></strong></td></tr></tbody></table>
+
+
+<table><thead><tr><th><span>Компонент / Роль</span></th><th><span>Модель сервера / устройства</span></th><th><span>Кол-во в ДЦ (N+1)</span></th><th><span>Ориентировочная цена за единицу (USD)</span></th><th><span>Общая стоимость компонента (USD)</span></th><th><span>Комментарии к ценообразованию</span></th></tr></thead><tbody><tr><td><strong><span>Серверы приложений</span></strong></td><td><span>Dell PowerEdge R760</span></td><td><span>8</span></td><td><span>$18,500</span></td><td><strong><span>$148,000</span></strong></td><td><span>Цена за конфигурацию: 2x Xeon Gold 6430, 256 ГБ DDR5, 2x 1.6TB NVMe SSD, базовые RAID/HBA.</span></td></tr><tr><td><strong><span>Балансировщики L7 (Nginx)</span></strong></td><td><span>Dell PowerEdge R660</span></td><td><span>12</span></td><td><span>$12,000</span></td><td><strong><span>$144,000</span></strong></td><td><span>Цена за конфигурацию: 2x Xeon Silver 4410Y, 128 ГБ RAM, 2x 960GB SSD SATA.</span></td></tr><tr><td><strong><span>Кластер Redis</span></strong></td><td><span>Dell PowerEdge R760</span></td><td><span>7</span></td><td><span>$26,000</span></td><td><strong><span>$182,000</span></strong></td><td><span>Премиум за увеличенный объем памяти (512 ГБ DDR5). Конфигурация: 2x Xeon Gold 6430, 512 ГБ RAM, 2x 3.2TB NVMe SSD.</span></td></tr><tr><td><strong><span>Кластер Elasticsearch</span></strong></td><td><span>Dell PowerEdge R660</span></td><td><span>4</span></td><td><span>$13,500</span></td><td><strong><span>$54,000</span></strong></td><td><span>Цена за конфигурацию: 2x Xeon Silver 4410Y, 128 ГБ RAM, </span><strong><span>4x 3.2TB NVMe SSD</span></strong><span> для высокой IOPS.</span></td></tr><tr><td><strong><span>Инфраструктура и мониторинг</span></strong></td><td><span>Dell PowerEdge R660</span></td><td><span>6</span></td><td><span>$11,000</span></td><td><strong><span>$66,000</span></strong></td><td><span>Цена за конфигурацию: 2x Xeon Silver 4410Y, 128 ГБ RAM, 2x 1.6TB SATA SSD.</span></td></tr><tr><td><strong><span>Балансировщики L4</span></strong></td><td><strong><span>F5 BIG-IP i7800</span></strong></td><td><span>2</span></td><td><span>$48,000</span></td><td><strong><span>$96,000</span></strong></td><td><span>Ориентировочная цена на аппаратный appliance с базовой лицензией на throughput ~200 Gbps.</span></td></tr><tr><td><strong><span>Сетевые коммутаторы</span></strong></td><td><strong><span>Arista 7280R3</span></strong><span> (48x 100GbE)</span></td><td><span>4</span></td><td><span>$22,000</span></td><td><strong><span>$88,000</span></strong></td><td><span>Ориентировочная цена за коммутатор с необходимым количеством портов 100GbE.</span></td></tr><tr><td><strong><span>Итого по оборудованию</span></strong></td><td></td><td><strong><span></span></strong></td><td></td><td><strong><span>$778,000</span></strong></td><td></td></tr></tbody></table>
 
 Вывод: Для обработки 20% глобальной пиковой нагрузки Tinder в одном дата-центре требуется 39 физических серверов стандартных моделей Dell PowerEdge и 6 специализированных сетевых устройств (F5, Arista). Суммарная вычислительная мощность составляет около 1500 физических ядер и 8.5 ТБ оперативной памяти, что с запасом перекрывает исходные требования в ~1300 vCPU и ~2.2 ТБ RAM.
 
